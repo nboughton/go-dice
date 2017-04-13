@@ -8,13 +8,12 @@ import (
 )
 
 // Dice represents a set of 1 type of dice, i.e: 3d20 OR 2d4 OR 1d6
-// Types are not mixed as it is unnecessary
 type Dice struct {
 	Number, Sides int
 	r             *rand.Rand
 }
 
-// NewDice returns a new Dice collection where
+// NewDice returns a new Dice set
 func NewDice(number, sides int) *Dice {
 	return &Dice{number, sides, rand.New(rand.NewSource(time.Now().UnixNano()))}
 }
@@ -33,7 +32,7 @@ func (d *Dice) String() string {
 	return fmt.Sprintf("%dd%d", d.Number, d.Sides)
 }
 
-// Bag is a collection of different types of Dice, i.e: 3d20 AND 2d4 AND 1d6
+// Bag is a collection of different types of Dice, i.e: 3d20, 2d4, 1d6
 type Bag []*Dice
 
 // NewBag returns a new Bag object
@@ -46,7 +45,7 @@ func (b Bag) Add(d *Dice) {
 	b = append(b, d)
 }
 
-// Roll returns aggregate rolls of all dice in the bag
+// Roll returns aggregate rolls of all Dice in the bag
 func (b Bag) Roll() int {
 	t := 0
 
