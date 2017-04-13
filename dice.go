@@ -3,6 +3,7 @@ package dice
 import (
 	"fmt"
 	"math/rand"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -32,24 +33,39 @@ func (d *Dice) String() string {
 	return fmt.Sprintf("%dd%d", d.Number, d.Sides)
 }
 
-// Bag is a collection of different types of Dice, i.e: 3d20, 2d4, 1d6
+// Bag is a collection of different types of Dice, i.e: [3d20, 2d4, 1d6]
 type Bag []*Dice
 
-// NewBag returns a new Bag object
-func NewBag() Bag {
-	return Bag{}
+// NewBag returns a new Bag object. A bag can be created with a collection of
+// dice specified in string form for convenience. I.e b := NewBag("2d20", "1d6", "8d8")
+func NewBag(dice ...string) *Bag {
+	b := &Bag{}
+
+	//	if len(dice) > 0 {
+	for _, a := range dice {
+		var (
+			ns   = strings.Split(a, "d")
+			n, _ = strconv.Atoi(ns[0])
+			s, _ = strconv.Atoi(ns[1])
+		)
+
+		*b = append(*b, NewDice(n, s))
+	}
+	//	}
+
+	return b
 }
 
 // Add puts more dice in the bag
-func (b Bag) Add(d *Dice) {
-	b = append(b, d)
+func (b *Bag) Add(d *Dice) {
+	*b = append(*b, d)
 }
 
 // Roll returns aggregate rolls of all Dice in the bag
-func (b Bag) Roll() int {
+func (b *Bag) Roll() int {
 	t := 0
 
-	for _, d := range b {
+	for _, d := range *b {
 		t += d.Roll()
 	}
 
@@ -57,10 +73,10 @@ func (b Bag) Roll() int {
 }
 
 // String satisfies the Stringer interface for Bags
-func (b Bag) String() string {
-	v := make([]string, len(b))
+func (b *Bag) String() string {
+	v := make([]string, len(*b))
 
-	for i, d := range b {
+	for i, d := range *b {
 		v[i] = fmt.Sprint(d)
 	}
 
