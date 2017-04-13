@@ -34,7 +34,9 @@ func (d *Dice) String() string {
 }
 
 // Bag is a collection of different types of Dice, i.e: [3d20, 2d4, 1d6]
-type Bag []*Dice
+type Bag struct {
+	dice []*Dice
+}
 
 // NewBag returns a new Bag object. A bag can be created with a collection of
 // dice specified in string form for convenience. I.e b := NewBag("2d20", "1d6", "8d8")
@@ -48,7 +50,7 @@ func NewBag(dice ...string) *Bag {
 			s, _ = strconv.Atoi(ns[1])
 		)
 
-		*b = append(*b, NewDice(n, s))
+		b.dice = append(b.dice, NewDice(n, s))
 	}
 
 	return b
@@ -56,14 +58,29 @@ func NewBag(dice ...string) *Bag {
 
 // Add puts more dice in the bag
 func (b *Bag) Add(d *Dice) {
-	*b = append(*b, d)
+	b.dice = append(b.dice, d)
+}
+
+// Remove removes any set that matches given criteria number and sides
+func (b *Bag) Remove(num, sides int) {
+	for {
+		for i, d := range b.dice {
+			if d.Number == num && d.Sides == sides {
+				b.dice = append(b.dice[:i], b.dice[i+1:]...)
+				continue
+			}
+			if i == len(b.dice)-1 {
+				break
+			}
+		}
+	}
 }
 
 // Roll returns aggregate rolls of all Dice in the bag
 func (b *Bag) Roll() int {
 	t := 0
 
-	for _, d := range *b {
+	for _, d := range b.dice {
 		t += d.Roll()
 	}
 
@@ -72,9 +89,9 @@ func (b *Bag) Roll() int {
 
 // String satisfies the Stringer interface for Bags
 func (b *Bag) String() string {
-	v := make([]string, len(*b))
+	v := make([]string, len(b.dice))
 
-	for i, d := range *b {
+	for i, d := range b.dice {
 		v[i] = fmt.Sprint(d)
 	}
 
