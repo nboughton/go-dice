@@ -15,7 +15,7 @@ type Dice struct {
 }
 
 // NewDice takes the common notation "nds" where n is the number of dice and s is the number of sides
-// it has; i.e 1d6 and returns a new Dice set
+// i.e 1d6 and returns a new Dice set
 func NewDice(s string) *Dice {
 	number, sides := stringToValues(s)
 	return &Dice{number, sides, rand.New(rand.NewSource(time.Now().UnixNano()))}
@@ -60,11 +60,13 @@ func (b *Bag) Add(d *Dice) {
 // Remove removes any set that matches given criteria number and sides
 func (b *Bag) Remove(num, sides int) {
 	newSet := []*Dice{}
+
 	for _, d := range b.dice {
 		if d.Number != num && d.Sides != sides {
 			newSet = append(newSet, d)
 		}
 	}
+
 	b.dice = newSet
 }
 
@@ -90,9 +92,10 @@ func (b *Bag) String() string {
 	return strings.Join(v, ", ")
 }
 
+// returns int values for numbers, sides
 func stringToValues(a string) (number int, sides int) {
 	ns := strings.Split(a, "d")
-	n, _ := strconv.Atoi(ns[0])
-	s, _ := strconv.Atoi(ns[1])
-	return n, s
+	number, _ = strconv.Atoi(ns[0])
+	sides, _ = strconv.Atoi(ns[1])
+	return number, sides
 }
