@@ -41,7 +41,6 @@ type Bag []*Dice
 func NewBag(dice ...string) *Bag {
 	b := &Bag{}
 
-	//	if len(dice) > 0 {
 	for _, a := range dice {
 		var (
 			ns   = strings.Split(a, "d")
@@ -51,7 +50,6 @@ func NewBag(dice ...string) *Bag {
 
 		*b = append(*b, NewDice(n, s))
 	}
-	//	}
 
 	return b
 }
