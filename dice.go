@@ -24,9 +24,11 @@ func NewDice(s string) *Dice {
 // Roll all dice in set and return the aggregate result
 func (d *Dice) Roll() int {
 	t := 0
+
 	for i := 0; i < d.Number; i++ {
 		t += d.r.Intn(d.Sides) + 1
 	}
+
 	return t
 }
 
