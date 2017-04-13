@@ -64,11 +64,14 @@ func (b *Bag) Add(d *Dice) {
 // Remove removes any set that matches given criteria number and sides
 func (b *Bag) Remove(num, sides int) {
 	for {
+		// Iterate dice and remove from array.
 		for i, d := range b.dice {
 			if d.Number == num && d.Sides == sides {
+				// This changes the index so we run again
 				b.dice = append(b.dice[:i], b.dice[i+1:]...)
 				continue
 			}
+			// Until no more instances are found
 			if i == len(b.dice)-1 {
 				break
 			}
