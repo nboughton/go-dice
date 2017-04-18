@@ -73,32 +73,32 @@ func TestNewBagMulti(t *testing.T) {
 func TestBagAdd(t *testing.T) {
 	b := NewBag(testBag...)
 	b.Add(testDice)
-	tBStr := "2d20, 4d4, 6d6"
-	if b.String() != tBStr {
-		t.Fatalf("Expected [%s], got [%s]\n", tBStr, b.String())
+	e := "2d20, 4d4, 6d6"
+	if b.String() != e {
+		t.Fatalf("Expected [%s], got [%s]\n", e, b.String())
 	}
 
 	d := "3d10"
 	b.Add(d)
-	tBStr = fmt.Sprintf("%s, %s", tBStr, d)
-	if b.String() != tBStr {
-		t.Fatalf("Expected [%s], got [%s]\n", tBStr, b.String())
+	e = fmt.Sprintf("%s, %s", e, d)
+	if b.String() != e {
+		t.Fatalf("Expected [%s], got [%s]\n", e, b.String())
 	}
 }
 
 func TestBagRemove(t *testing.T) {
 	b := NewBag(testBag...)
 	b.Remove("2d20")
-	tBStr := "0d20, 4d4, 6d6"
-	if b.String() != tBStr {
-		t.Fatalf("Expected [%s], got [%s]\n", tBStr, b.String())
+	e := "0d20, 4d4, 6d6"
+	if b.String() != e {
+		t.Fatalf("Expected [%s], got [%s]\n", e, b.String())
 	}
 
 	d := "2d4"
 	b.Remove(d)
-	tBStr = "0d20, 2d4, 6d6"
-	if b.String() != tBStr {
-		t.Fatalf("Expected [%s], got [%s]\n", tBStr, b.String())
+	e = "0d20, 2d4, 6d6"
+	if b.String() != e {
+		t.Fatalf("Expected [%s], got [%s]\n", e, b.String())
 	}
 }
 
