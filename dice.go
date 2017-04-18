@@ -10,7 +10,7 @@ import (
 
 // Dice represents a set of 1 type of dice, i.e: 3d20 OR 2d4 OR 1d6
 type Dice struct {
-	Number, Sides int
+	number, sides int
 	r             *rand.Rand
 }
 
@@ -25,8 +25,8 @@ func NewDice(s string) *Dice {
 func (d *Dice) Roll() int {
 	t := 0
 
-	for i := 0; i < d.Number; i++ {
-		t += d.r.Intn(d.Sides) + 1
+	for i := 0; i < d.number; i++ {
+		t += d.r.Intn(d.sides) + 1
 	}
 
 	return t
@@ -34,7 +34,7 @@ func (d *Dice) Roll() int {
 
 // String satisfies the Stringer interface for Dice
 func (d *Dice) String() string {
-	return fmt.Sprintf("%dd%d", d.Number, d.Sides)
+	return fmt.Sprintf("%dd%d", d.number, d.sides)
 }
 
 // Bag is a collection of different types of Dice, i.e: [3d20, 2d4, 1d6]
@@ -60,8 +60,8 @@ func (b *Bag) Add(s string) {
 
 	// increment existing set if it exists
 	for _, set := range b.dice {
-		if set.Sides == d.Sides {
-			set.Number += d.Number
+		if set.sides == d.sides {
+			set.number += d.number
 			return
 		}
 	}
@@ -76,12 +76,12 @@ func (b *Bag) Remove(s string) {
 
 	// Remove specified dice from set
 	for _, set := range b.dice {
-		if set.Sides == sides {
+		if set.sides == sides {
 			// ensure no < 0 values
-			if set.Number-number < 0 {
-				set.Number = 0
+			if set.number-number < 0 {
+				set.number = 0
 			} else {
-				set.Number -= number
+				set.number -= number
 			}
 			break
 		}

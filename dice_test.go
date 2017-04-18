@@ -23,7 +23,7 @@ func TestDiceRoll(t *testing.T) {
 	d := NewDice(testDice)
 	for i := 0; i < 10000; i++ {
 		r := d.Roll()
-		if r < 1 || r > d.Sides {
+		if r < 1 || r > d.sides {
 			t.Fatalf("Dice (%s) rolled out of bounds: %d\n", testDice, r)
 		}
 	}
