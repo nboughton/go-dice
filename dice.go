@@ -85,7 +85,7 @@ type Bag struct {
 
 // NewBag returns a new Bag object. A bag can be created with a collection of
 // dice specified in string form for convenience. I.e b := NewBag("2d20", "1d6", "8d8")
-// Returns error if s is not a valid dice string
+// Returns error if any item in dice is not a valid dice string
 func NewBag(dice ...string) (*Bag, error) {
 	b := new(Bag)
 
