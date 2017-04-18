@@ -6,13 +6,13 @@ import (
 )
 
 var (
-	testDice    = "1d20"
-	testBag     = []string{"1d20", "4d4", "6d6"}
-	testBagMax  = 72
-	testBagMin  = 11
-	rollTests   = 10000
-	expectedStr = "Expected [%s], got [%s]\n"
-	otbStr      = "%s is out of bounds: %d\n"
+	testDice      = "1d20"
+	testBag       = []string{"1d20", "4d4", "6d6"}
+	testBagMax    = 72
+	testBagMin    = 11
+	rollTests     = 10000
+	expectedStr   = "Expected [%s], got [%s]\n"
+	outOfBoundStr = "%s is out of bounds: %d\n"
 )
 
 func TestNewDice(t *testing.T) {
@@ -55,7 +55,7 @@ func TestDiceRoll(t *testing.T) {
 	for i := 0; i < rollTests; i++ {
 		r := d.Roll()
 		if r < 1 || r > d.sides {
-			t.Fatalf(otbStr, testDice, r)
+			t.Fatalf(outOfBoundStr, testDice, r)
 		}
 	}
 }
@@ -111,7 +111,7 @@ func TestBagRoll(t *testing.T) {
 	for i := 0; i < rollTests; i++ {
 		r := b.Roll()
 		if r < testBagMin || r > testBagMax {
-			t.Fatalf(otbStr, b, r)
+			t.Fatalf(outOfBoundStr, b, r)
 		}
 	}
 }
