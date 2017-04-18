@@ -56,19 +56,18 @@ func NewBag(dice ...string) *Bag {
 
 // Add puts more dice in the bag adding to existing sets where possible
 func (b *Bag) Add(s string) {
-	d, setIncremented := NewDice(s), false
+	d := NewDice(s)
 
+	// increment existing set if it exists
 	for _, set := range b.dice {
 		if set.Sides == d.Sides {
 			set.Number += d.Number
-			setIncremented = true
-			break
+			return
 		}
 	}
 
-	if !setIncremented {
-		b.dice = append(b.dice, d)
-	}
+	// Otherwise add a new set
+	b.dice = append(b.dice, d)
 }
 
 // Remove reduces the number of dice by the specified s string if s exists
