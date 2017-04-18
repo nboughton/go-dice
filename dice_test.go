@@ -10,7 +10,7 @@ var (
 	testBag       = []string{"1d20", "4d4", "6d6"}
 	testBagMax    = 72
 	testBagMin    = 11
-	rollTests     = 10000
+	rollTests     = 1000000
 	expectedStr   = "Expected [%s], got [%s]\n"
 	outOfBoundStr = "%s is out of bounds: %d\n"
 )
