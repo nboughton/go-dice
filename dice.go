@@ -42,7 +42,7 @@ func (d *Dice) Add(s string) error {
 	return nil
 }
 
-// Remove removes n die from a single set iff that is of the same number of sides
+// Remove removes n die from a single set iff that set is of the same number of sides
 func (d *Dice) Remove(s string) error {
 	number, sides, err := strToVal(s)
 	if err != nil {
