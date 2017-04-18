@@ -28,7 +28,8 @@ func NewDice(s string) (*Dice, error) {
 	return &Dice{number, sides}, nil
 }
 
-// Add adds n die to a single set iff that set is of the same number of sides. Returns error if s is not a valid dice string
+// Add adds n die to a single set iff that set is of the same number of sides.
+// Returns error if s is not a valid dice string
 func (d *Dice) Add(s string) error {
 	number, sides, err := strToVal(s)
 	if err != nil {
@@ -42,7 +43,8 @@ func (d *Dice) Add(s string) error {
 	return nil
 }
 
-// Remove removes n die from a single set iff that set is of the same number of sides. Returns error if s is not a valid dice string
+// Remove removes n die from a single set iff that set is of the same number of sides.
+// Returns error if s is not a valid dice string
 func (d *Dice) Remove(s string) error {
 	number, sides, err := strToVal(s)
 	if err != nil {
@@ -96,7 +98,8 @@ func NewBag(dice ...string) (*Bag, error) {
 	return b, nil
 }
 
-// Add puts more dice in the bag, adding to existing sets where possible. Returns error if s is not a valid dice string
+// Add puts more dice in the bag, adding to existing sets where possible.
+// Returns error if s is not a valid dice string
 func (b *Bag) Add(s string) error {
 	d, err := NewDice(s)
 	if err != nil {
@@ -116,7 +119,8 @@ func (b *Bag) Add(s string) error {
 	return nil
 }
 
-// Remove reduces the number of dice by the specified s string if s exists in the bag. Returns error if s is not a valid dice string
+// Remove reduces the number of dice by the specified s string if s exists in the bag.
+// Returns error if s is not a valid dice string
 func (b *Bag) Remove(s string) error {
 	number, sides, err := strToVal(s)
 	if err != nil {
