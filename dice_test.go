@@ -11,6 +11,7 @@ var (
 	testBag    = []string{"1d20", "4d4", "6d6"}
 	testBagMax = 72
 	testBagMin = 11
+	rollTests  = 10000
 )
 
 func TestNewDice(t *testing.T) {
@@ -47,7 +48,7 @@ func TestDiceRemove(t *testing.T) {
 
 func TestDiceRoll(t *testing.T) {
 	d := NewDice(testDice)
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < rollTests; i++ {
 		r := d.Roll()
 		if r < 1 || r > d.sides {
 			t.Fatalf("Dice (%s) rolled out of bounds: %d\n", testDice, r)
@@ -96,7 +97,7 @@ func TestBagRemove(t *testing.T) {
 
 func TestBagRoll(t *testing.T) {
 	b := NewBag(testBag...)
-	for i := 0; i < 10000; i++ {
+	for i := 0; i < rollTests; i++ {
 		r := b.Roll()
 		if r < testBagMin || r > testBagMax {
 			t.Fatalf("Bag roll [%d] out of bounds", r)
