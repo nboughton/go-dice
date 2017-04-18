@@ -17,7 +17,7 @@ type Dice struct {
 // NewDice takes the common notation "nds" where n is the number of dice and s is the number of sides
 // i.e 1d6 and returns a new Dice set
 func NewDice(s string) *Dice {
-	number, sides := stringToValues(s)
+	number, sides := strToVal(s)
 	return &Dice{number, sides, rand.New(rand.NewSource(time.Now().UnixNano()))}
 }
 
@@ -54,22 +54,36 @@ func NewBag(dice ...string) *Bag {
 	return b
 }
 
-// Add puts more dice in the bag
-func (b *Bag) Add(d *Dice) {
-	b.dice = append(b.dice, d)
-}
+// Add puts more dice in the bag adding to existing sets where possible
+func (b *Bag) Add(s string) {
+	d, setIncremented := NewDice(s), false
 
-// Remove removes any set that matches given criteria number and sides
-func (b *Bag) Remove(num, sides int) {
-	newSet := []*Dice{}
-
-	for _, d := range b.dice {
-		if d.Number != num && d.Sides != sides {
-			newSet = append(newSet, d)
+	for _, set := range b.dice {
+		if set.Sides == d.Sides {
+			set.Number += d.Number
+			setIncremented = true
+			break
 		}
 	}
 
-	b.dice = newSet
+	if !setIncremented {
+		b.dice = append(b.dice, d)
+	}
+}
+
+// Remove reduces the number of dice by the specified s string if s exists
+func (b *Bag) Remove(s string) {
+	d := NewDice(s)
+	for _, set := range b.dice {
+		if set.Sides == d.Sides {
+			if set.Number-d.Number < 0 {
+				set.Number = 0
+			} else {
+				set.Number -= d.Number
+			}
+			break
+		}
+	}
 }
 
 // Roll returns aggregate rolls of all Dice in the bag
@@ -95,7 +109,7 @@ func (b *Bag) String() string {
 }
 
 // returns int values for numbers, sides
-func stringToValues(a string) (number int, sides int) {
+func strToVal(a string) (number int, sides int) {
 	ns := strings.Split(a, "d")
 	number, _ = strconv.Atoi(ns[0])
 	sides, _ = strconv.Atoi(ns[1])
