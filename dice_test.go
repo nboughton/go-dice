@@ -1,7 +1,6 @@
 package dice
 
 import (
-	"fmt"
 	"strings"
 	"testing"
 )
@@ -57,9 +56,9 @@ func TestDiceRoll(t *testing.T) {
 }
 
 func TestNewBag(t *testing.T) {
-	b, v := NewBag(testBag...).String(), strings.Join(testBag, ", ")
-	if b != v {
-		t.Fatalf("Expected [%s], got [%s]\n", v, b)
+	b, e := NewBag(testBag...).String(), strings.Join(testBag, ", ")
+	if b != e {
+		t.Fatalf("Expected [%s], got [%s]\n", e, b)
 	}
 }
 
@@ -71,32 +70,28 @@ func TestNewBagMulti(t *testing.T) {
 }
 
 func TestBagAdd(t *testing.T) {
-	b := NewBag(testBag...)
+	b, e := NewBag(testBag...), "2d20, 4d4, 6d6"
 	b.Add(testDice)
-	e := "2d20, 4d4, 6d6"
 	if b.String() != e {
 		t.Fatalf("Expected [%s], got [%s]\n", e, b.String())
 	}
 
-	d := "3d10"
+	d, e := "3d10", e+", 3d10"
 	b.Add(d)
-	e = fmt.Sprintf("%s, %s", e, d)
 	if b.String() != e {
 		t.Fatalf("Expected [%s], got [%s]\n", e, b.String())
 	}
 }
 
 func TestBagRemove(t *testing.T) {
-	b := NewBag(testBag...)
+	b, e := NewBag(testBag...), "0d20, 4d4, 6d6"
 	b.Remove("2d20")
-	e := "0d20, 4d4, 6d6"
 	if b.String() != e {
 		t.Fatalf("Expected [%s], got [%s]\n", e, b.String())
 	}
 
-	d := "2d4"
+	d, e := "2d4", "0d20, 2d4, 6d6"
 	b.Remove(d)
-	e = "0d20, 2d4, 6d6"
 	if b.String() != e {
 		t.Fatalf("Expected [%s], got [%s]\n", e, b.String())
 	}
