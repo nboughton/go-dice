@@ -1,5 +1,5 @@
-// Package dice utilises the standard "nds" notation where n = number of die and s = number of sides; i.e: 1d6, 3d10, 8d8 etc
-// in order to create individual sets of a single type of die or bags of mixed collections that can then manipluated or rolled
+// Package dice utilises the standard "nds" notation where n = number of die and s = number of sides; i.e 1d6, 3d10, 8d8 etc
+// in order to create individual sets of a single type of die or bags of mixed collections that can then be manipluated or rolled
 package dice
 
 import (
@@ -17,7 +17,7 @@ type Dice struct {
 	number, sides int
 }
 
-// NewDice takes the common notation "nds" where n is the number of dice and s is the number of sides
+// NewDice takes the common notation "nds" where n is the number of dice and s is the number of sides;
 // i.e 1d6 and returns a new Dice set.
 func NewDice(s string) *Dice {
 	number, sides := strToVal(s)
@@ -60,7 +60,7 @@ func (d *Dice) String() string {
 	return fmt.Sprintf("%dd%d", d.number, d.sides)
 }
 
-// Bag is a collection of different types of Dice, i.e: [3d20, 2d4, 1d6]
+// Bag is a collection of different types of Dice; i.e [3d20, 2d4, 1d6]
 type Bag struct {
 	dice []*Dice
 }
@@ -77,7 +77,7 @@ func NewBag(dice ...string) *Bag {
 	return b
 }
 
-// Add puts more dice in the bag adding to existing sets where possible
+// Add puts more dice in the bag, adding to existing sets where possible
 func (b *Bag) Add(s string) {
 	d := NewDice(s)
 
@@ -93,7 +93,7 @@ func (b *Bag) Add(s string) {
 	b.dice = append(b.dice, d)
 }
 
-// Remove reduces the number of dice by the specified s string if s exists
+// Remove reduces the number of dice by the specified s string if s exists in the bag
 func (b *Bag) Remove(s string) {
 	number, sides := strToVal(s)
 
