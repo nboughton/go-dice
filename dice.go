@@ -48,7 +48,7 @@ func NewBag(dice ...string) *Bag {
 	b := &Bag{}
 
 	for _, a := range dice {
-		b.dice = append(b.dice, NewDice(a))
+		b.Add(a)
 	}
 
 	return b
@@ -72,13 +72,16 @@ func (b *Bag) Add(s string) {
 
 // Remove reduces the number of dice by the specified s string if s exists
 func (b *Bag) Remove(s string) {
-	d := NewDice(s)
+	number, sides := strToVal(s)
+
+	// Remove specified dice from set
 	for _, set := range b.dice {
-		if set.Sides == d.Sides {
-			if set.Number-d.Number < 0 {
+		if set.Sides == sides {
+			// ensure no < 0 values
+			if set.Number-number < 0 {
 				set.Number = 0
 			} else {
-				set.Number -= d.Number
+				set.Number -= number
 			}
 			break
 		}
