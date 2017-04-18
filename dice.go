@@ -19,22 +19,36 @@ type Dice struct {
 
 // NewDice takes the common notation "nds" where n is the number of dice and s is the number of sides;
 // i.e 1d6 and returns a new Dice set.
-func NewDice(s string) *Dice {
-	number, sides := strToVal(s)
-	return &Dice{number, sides}
+func NewDice(s string) (*Dice, error) {
+	number, sides, err := strToVal(s)
+	if err != nil {
+		return new(Dice), err
+	}
+
+	return &Dice{number, sides}, nil
 }
 
 // Add adds n die to a single set iff that set is of the same number of sides
-func (d *Dice) Add(s string) {
-	number, sides := strToVal(s)
+func (d *Dice) Add(s string) error {
+	number, sides, err := strToVal(s)
+	if err != nil {
+		return err
+	}
+
 	if d.sides == sides {
 		d.number += number
 	}
+
+	return nil
 }
 
 // Remove removes n die from a single set iff that is of the same number of sides
-func (d *Dice) Remove(s string) {
-	number, sides := strToVal(s)
+func (d *Dice) Remove(s string) error {
+	number, sides, err := strToVal(s)
+	if err != nil {
+		return err
+	}
+
 	if d.sides == sides {
 		if d.number-number < 1 {
 			d.number = 0
@@ -42,6 +56,8 @@ func (d *Dice) Remove(s string) {
 			d.number -= number
 		}
 	}
+
+	return nil
 }
 
 // Roll all dice in set and return the aggregate result
@@ -78,24 +94,31 @@ func NewBag(dice ...string) *Bag {
 }
 
 // Add puts more dice in the bag, adding to existing sets where possible
-func (b *Bag) Add(s string) {
-	d := NewDice(s)
+func (b *Bag) Add(s string) error {
+	d, err := NewDice(s)
+	if err != nil {
+		return err
+	}
 
 	// increment existing set if it exists
 	for _, set := range b.dice {
 		if set.sides == d.sides {
 			set.number += d.number
-			return
+			return nil
 		}
 	}
 
 	// Otherwise add a new set
 	b.dice = append(b.dice, d)
+	return nil
 }
 
 // Remove reduces the number of dice by the specified s string if s exists in the bag
-func (b *Bag) Remove(s string) {
-	number, sides := strToVal(s)
+func (b *Bag) Remove(s string) error {
+	number, sides, err := strToVal(s)
+	if err != nil {
+		return err
+	}
 
 	// Remove specified dice from set
 	for _, set := range b.dice {
@@ -109,6 +132,8 @@ func (b *Bag) Remove(s string) {
 			break
 		}
 	}
+
+	return nil
 }
 
 // Roll returns aggregate rolls of all Dice in the bag
@@ -134,9 +159,17 @@ func (b *Bag) String() string {
 }
 
 // returns int values for numbers, sides
-func strToVal(a string) (number int, sides int) {
+func strToVal(a string) (number int, sides int, err error) {
 	ns := strings.Split(a, "d")
-	number, _ = strconv.Atoi(ns[0])
-	sides, _ = strconv.Atoi(ns[1])
-	return number, sides
+	if len(ns) == 2 {
+		number, _ = strconv.Atoi(ns[0])
+		sides, _ = strconv.Atoi(ns[1])
+		if number > 0 && sides > 0 {
+			return number, sides, nil
+		}
+
+		return number, sides, fmt.Errorf("%s is not a valid dice string", a)
+	}
+
+	return number, sides, fmt.Errorf("%s is not a valid dice string", a)
 }

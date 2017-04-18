@@ -14,13 +14,15 @@ var (
 )
 
 func TestNewDice(t *testing.T) {
-	if NewDice(testDice).String() != testDice {
+	d, _ := NewDice(testDice)
+	if d.String() != testDice {
 		t.Fatal("Expected ", testDice)
 	}
 }
 
 func TestDiceAdd(t *testing.T) {
-	d, e := NewDice("3d20"), "4d20"
+	d, _ := NewDice("3d20")
+	e := "4d20"
 	d.Add(testDice)
 	if d.String() != e {
 		t.Fatalf("Expected [%s], got [%s]\n", e, d.String())
@@ -33,7 +35,8 @@ func TestDiceAdd(t *testing.T) {
 }
 
 func TestDiceRemove(t *testing.T) {
-	d, e := NewDice("3d20"), "2d20"
+	d, _ := NewDice("3d20")
+	e := "2d20"
 	d.Remove(testDice)
 	if d.String() != e {
 		t.Fatalf("Expected [%s], got [%s]\n", e, d.String())
@@ -46,7 +49,7 @@ func TestDiceRemove(t *testing.T) {
 }
 
 func TestDiceRoll(t *testing.T) {
-	d := NewDice(testDice)
+	d, _ := NewDice(testDice)
 	for i := 0; i < rollTests; i++ {
 		r := d.Roll()
 		if r < 1 || r > d.sides {
