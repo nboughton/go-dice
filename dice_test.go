@@ -19,6 +19,32 @@ func TestNewDice(t *testing.T) {
 	}
 }
 
+func TestDiceAdd(t *testing.T) {
+	d := NewDice("3d20")
+	d.Add("1d20")
+	if d.String() != "4d20" {
+		t.Fatal("Die not added properly")
+	}
+
+	d.Add("2d6")
+	if d.String() != "4d20" {
+		t.Fatal("Incorrectly added wrong sided die")
+	}
+}
+
+func TestDiceRemove(t *testing.T) {
+	d := NewDice("3d20")
+	d.Remove("1d20")
+	if d.String() != "2d20" {
+		t.Fatal("Did not remove correct number of dice")
+	}
+
+	d.Remove("2d6")
+	if d.String() != "2d20" {
+		t.Fatal("Incorrectly removed wrong sided die")
+	}
+}
+
 func TestDiceRoll(t *testing.T) {
 	d := NewDice(testDice)
 	for i := 0; i < 10000; i++ {

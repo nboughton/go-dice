@@ -1,3 +1,5 @@
+// Package dice utilises the standard "nds" notation where n = number of die and s = number of sides; i.e: 1d6, 3d10, 8d8 etc
+// in order to create individual sets of a single type of die or bags of mixed collections that can then manipluated or rolled
 package dice
 
 import (
@@ -16,7 +18,7 @@ type Dice struct {
 }
 
 // NewDice takes the common notation "nds" where n is the number of dice and s is the number of sides
-// i.e 1d6 and returns a new Dice set
+// i.e 1d6 and returns a new Dice set.
 func NewDice(s string) *Dice {
 	number, sides := strToVal(s)
 	return &Dice{number, sides}
@@ -33,6 +35,26 @@ func (d *Dice) Roll() int {
 	return t
 }
 
+// Add adds n die to a single set iff that set is of the same number of sides
+func (d *Dice) Add(s string) {
+	number, sides := strToVal(s)
+	if d.sides == sides {
+		d.number += number
+	}
+}
+
+// Remove removes n die from a single set iff that is of the same number of sides
+func (d *Dice) Remove(s string) {
+	number, sides := strToVal(s)
+	if d.sides == sides {
+		if d.number-number < 1 {
+			d.number = 0
+		} else {
+			d.number -= number
+		}
+	}
+}
+
 // String satisfies the Stringer interface for Dice
 func (d *Dice) String() string {
 	return fmt.Sprintf("%dd%d", d.number, d.sides)
@@ -46,7 +68,7 @@ type Bag struct {
 // NewBag returns a new Bag object. A bag can be created with a collection of
 // dice specified in string form for convenience. I.e b := NewBag("2d20", "1d6", "8d8")
 func NewBag(dice ...string) *Bag {
-	b := &Bag{}
+	b := new(Bag)
 
 	for _, a := range dice {
 		b.Add(a)
