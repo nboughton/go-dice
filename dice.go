@@ -8,17 +8,18 @@ import (
 	"time"
 )
 
+var rng = rand.New(rand.NewSource(time.Now().UnixNano()))
+
 // Dice represents a set of 1 type of dice, i.e: 3d20 OR 2d4 OR 1d6
 type Dice struct {
 	number, sides int
-	r             *rand.Rand
 }
 
 // NewDice takes the common notation "nds" where n is the number of dice and s is the number of sides
 // i.e 1d6 and returns a new Dice set
 func NewDice(s string) *Dice {
 	number, sides := strToVal(s)
-	return &Dice{number, sides, rand.New(rand.NewSource(time.Now().UnixNano()))}
+	return &Dice{number, sides}
 }
 
 // Roll all dice in set and return the aggregate result
@@ -26,7 +27,7 @@ func (d *Dice) Roll() int {
 	t := 0
 
 	for i := 0; i < d.number; i++ {
-		t += d.r.Intn(d.sides) + 1
+		t += rng.Intn(d.sides) + 1
 	}
 
 	return t
