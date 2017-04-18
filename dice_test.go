@@ -63,6 +63,13 @@ func TestNewBag(t *testing.T) {
 	}
 }
 
+func TestNewBagMulti(t *testing.T) {
+	b, e := NewBag("1d20", "3d20", "8d10"), "4d20, 8d10"
+	if b.String() != e {
+		t.Fatalf("Expected [%s], got [%s]\n", e, b.String())
+	}
+}
+
 func TestBagAdd(t *testing.T) {
 	b := NewBag(testBag...)
 	b.Add(testDice)
