@@ -83,14 +83,16 @@ type Bag struct {
 
 // NewBag returns a new Bag object. A bag can be created with a collection of
 // dice specified in string form for convenience. I.e b := NewBag("2d20", "1d6", "8d8")
-func NewBag(dice ...string) *Bag {
+func NewBag(dice ...string) (*Bag, error) {
 	b := new(Bag)
 
 	for _, a := range dice {
-		b.Add(a)
+		if err := b.Add(a); err != nil {
+			return b, err
+		}
 	}
 
-	return b
+	return b, nil
 }
 
 // Add puts more dice in the bag, adding to existing sets where possible

@@ -59,21 +59,24 @@ func TestDiceRoll(t *testing.T) {
 }
 
 func TestNewBag(t *testing.T) {
-	b, e := NewBag(testBag...).String(), strings.Join(testBag, ", ")
-	if b != e {
+	b, _ := NewBag(testBag...)
+	e := strings.Join(testBag, ", ")
+	if b.String() != e {
 		t.Fatalf("Expected [%s], got [%s]\n", e, b)
 	}
 }
 
 func TestNewBagMulti(t *testing.T) {
-	b, e := NewBag("1d20", "3d20", "8d10"), "4d20, 8d10"
+	b, _ := NewBag("1d20", "3d20", "8d10")
+	e := "4d20, 8d10"
 	if b.String() != e {
 		t.Fatalf("Expected [%s], got [%s]\n", e, b.String())
 	}
 }
 
 func TestBagAdd(t *testing.T) {
-	b, e := NewBag(testBag...), "2d20, 4d4, 6d6"
+	b, _ := NewBag(testBag...)
+	e := "2d20, 4d4, 6d6"
 	b.Add(testDice)
 	if b.String() != e {
 		t.Fatalf("Expected [%s], got [%s]\n", e, b.String())
@@ -87,7 +90,8 @@ func TestBagAdd(t *testing.T) {
 }
 
 func TestBagRemove(t *testing.T) {
-	b, e := NewBag(testBag...), "0d20, 4d4, 6d6"
+	b, _ := NewBag(testBag...)
+	e := "0d20, 4d4, 6d6"
 	b.Remove("2d20")
 	if b.String() != e {
 		t.Fatalf("Expected [%s], got [%s]\n", e, b.String())
@@ -101,7 +105,7 @@ func TestBagRemove(t *testing.T) {
 }
 
 func TestBagRoll(t *testing.T) {
-	b := NewBag(testBag...)
+	b, _ := NewBag(testBag...)
 	for i := 0; i < rollTests; i++ {
 		r := b.Roll()
 		if r < testBagMin || r > testBagMax {
