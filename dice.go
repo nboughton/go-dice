@@ -18,7 +18,7 @@ type Dice struct {
 }
 
 // NewDice takes the common notation "nds" where n is the number of dice and s is the number of sides;
-// i.e 1d6 and returns a new Dice set.
+// i.e 1d6 and returns a new Dice set. Returns error if s is not a valid dice string
 func NewDice(s string) (*Dice, error) {
 	number, sides, err := strToVal(s)
 	if err != nil {
@@ -28,7 +28,7 @@ func NewDice(s string) (*Dice, error) {
 	return &Dice{number, sides}, nil
 }
 
-// Add adds n die to a single set iff that set is of the same number of sides
+// Add adds n die to a single set iff that set is of the same number of sides. Returns error if s is not a valid dice string
 func (d *Dice) Add(s string) error {
 	number, sides, err := strToVal(s)
 	if err != nil {
@@ -42,7 +42,7 @@ func (d *Dice) Add(s string) error {
 	return nil
 }
 
-// Remove removes n die from a single set iff that set is of the same number of sides
+// Remove removes n die from a single set iff that set is of the same number of sides. Returns error if s is not a valid dice string
 func (d *Dice) Remove(s string) error {
 	number, sides, err := strToVal(s)
 	if err != nil {
@@ -83,6 +83,7 @@ type Bag struct {
 
 // NewBag returns a new Bag object. A bag can be created with a collection of
 // dice specified in string form for convenience. I.e b := NewBag("2d20", "1d6", "8d8")
+// Returns error if s is not a valid dice string
 func NewBag(dice ...string) (*Bag, error) {
 	b := new(Bag)
 
@@ -95,7 +96,7 @@ func NewBag(dice ...string) (*Bag, error) {
 	return b, nil
 }
 
-// Add puts more dice in the bag, adding to existing sets where possible
+// Add puts more dice in the bag, adding to existing sets where possible. Returns error if s is not a valid dice string
 func (b *Bag) Add(s string) error {
 	d, err := NewDice(s)
 	if err != nil {
@@ -115,7 +116,7 @@ func (b *Bag) Add(s string) error {
 	return nil
 }
 
-// Remove reduces the number of dice by the specified s string if s exists in the bag
+// Remove reduces the number of dice by the specified s string if s exists in the bag. Returns error if s is not a valid dice string
 func (b *Bag) Remove(s string) error {
 	number, sides, err := strToVal(s)
 	if err != nil {
