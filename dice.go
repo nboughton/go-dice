@@ -24,17 +24,6 @@ func NewDice(s string) *Dice {
 	return &Dice{number, sides}
 }
 
-// Roll all dice in set and return the aggregate result
-func (d *Dice) Roll() int {
-	t := 0
-
-	for i := 0; i < d.number; i++ {
-		t += rng.Intn(d.sides) + 1
-	}
-
-	return t
-}
-
 // Add adds n die to a single set iff that set is of the same number of sides
 func (d *Dice) Add(s string) {
 	number, sides := strToVal(s)
@@ -53,6 +42,17 @@ func (d *Dice) Remove(s string) {
 			d.number -= number
 		}
 	}
+}
+
+// Roll all dice in set and return the aggregate result
+func (d *Dice) Roll() int {
+	t := 0
+
+	for i := 0; i < d.number; i++ {
+		t += rng.Intn(d.sides) + 1
+	}
+
+	return t
 }
 
 // String satisfies the Stringer interface for Dice
