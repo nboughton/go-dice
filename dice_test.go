@@ -20,28 +20,28 @@ func TestNewDice(t *testing.T) {
 }
 
 func TestDiceAdd(t *testing.T) {
-	d := NewDice("3d20")
-	d.Add("1d20")
-	if d.String() != "4d20" {
-		t.Fatal("Die not added properly")
+	d, e := NewDice("3d20"), "4d20"
+	d.Add(testDice)
+	if d.String() != e {
+		t.Fatalf("Expected [%s], got [%s]\n", e, d.String())
 	}
 
 	d.Add("2d6")
-	if d.String() != "4d20" {
-		t.Fatal("Incorrectly added wrong sided die")
+	if d.String() != e {
+		t.Fatalf("Expected [%s], got [%s]\n", e, d.String())
 	}
 }
 
 func TestDiceRemove(t *testing.T) {
-	d := NewDice("3d20")
-	d.Remove("1d20")
-	if d.String() != "2d20" {
-		t.Fatal("Did not remove correct number of dice")
+	d, e := NewDice("3d20"), "2d20"
+	d.Remove(testDice)
+	if d.String() != e {
+		t.Fatalf("Expected [%s], got [%s]\n", e, d.String())
 	}
 
 	d.Remove("2d6")
-	if d.String() != "2d20" {
-		t.Fatal("Incorrectly removed wrong sided die")
+	if d.String() != e {
+		t.Fatalf("Expected [%s], got [%s]\n", e, d.String())
 	}
 }
 
