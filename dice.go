@@ -1,5 +1,5 @@
 // Package dice utilises the standard "nds" notation where n = number of die and s = number of sides; i.e 1d6, 3d10, 8d8 etc
-// in order to create individual sets of a single type of die or bags of mixed collections that can then be manipluated or rolled
+// in order to create individual sets of a single type of die or bags of mixed collections that can then be manipulated or rolled
 package dice
 
 import (
@@ -166,7 +166,7 @@ func (b *Bag) String() string {
 }
 
 // returns int values for numbers, sides
-func strToVal(a string) (number int, sides int, err error) {
+func strToVal(a string) (number, sides int, err error) {
 	ns := strings.Split(a, "d")
 	if len(ns) == 2 {
 		number, _ = strconv.Atoi(ns[0])
