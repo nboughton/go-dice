@@ -19,7 +19,7 @@ func main() {
 		}
 
 		sort.Ints(n)
-		fmt.Printf("%v = %d\n", n[1:], sum(n[1:]))
+		fmt.Printf("Dropped: [%d], Kept: %v = %d\n", n[0], n[1:], sum(n[1:]))
 	}
 }
 
