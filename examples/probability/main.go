@@ -29,7 +29,8 @@ func main() {
 func runTests(bag *dice.Bag, tests, wants int) float64 {
 	c := 0
 	for i := 0; i < tests; i++ {
-		if bag.Roll() == wants {
+		t, _ := bag.Roll()
+		if t == wants {
 			c++
 		}
 	}

@@ -16,11 +16,11 @@ var (
 
 func main() {
 	t, a := 0, []string{}
-	for i := 0; i < 4; i++ {
-		d, _ := dice.NewDice("1d6")
-		n := d.Roll()
-		a = append(a, sym[fate[n]])
+	d, _ := dice.NewDice("4d6")
+	_, s := d.Roll()
 
+	for _, n := range s {
+		a = append(a, sym[fate[n]])
 		t += fate[n]
 	}
 

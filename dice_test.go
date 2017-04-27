@@ -13,6 +13,7 @@ var (
 	rollTests     = 1000000
 	expectedStr   = "Expected [%s], got [%s]\n"
 	outOfBoundStr = "%s is out of bounds: %d\n"
+	badAggSetStr  = "%s should contain %d elements, has %d\n"
 )
 
 func TestNewDice(t *testing.T) {
@@ -53,9 +54,14 @@ func TestDiceRemove(t *testing.T) {
 func TestDiceRoll(t *testing.T) {
 	d, _ := NewDice(testDice)
 	for i := 0; i < rollTests; i++ {
-		r := d.Roll()
+		r, s := d.Roll()
+		// test individual roll
 		if r < 1 || r > d.sides {
 			t.Fatalf(outOfBoundStr, testDice, r)
+		}
+		// test set
+		if len(s) != d.number {
+			t.Fatalf(badAggSetStr, s, d.number, len(s))
 		}
 	}
 }
@@ -109,9 +115,14 @@ func TestBagRemove(t *testing.T) {
 func TestBagRoll(t *testing.T) {
 	b, _ := NewBag(testBag...)
 	for i := 0; i < rollTests; i++ {
-		r := b.Roll()
+		r, s := b.Roll()
+		// Check rolls
 		if r < testBagMin || r > testBagMax {
 			t.Fatalf(outOfBoundStr, b, r)
+		}
+		// Check set maps
+		if len(s) != len(testBag) {
+			t.Fatalf(badAggSetStr, s, len(testBag), len(s))
 		}
 	}
 }

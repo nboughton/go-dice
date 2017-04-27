@@ -62,15 +62,17 @@ func (d *Dice) Remove(s string) error {
 	return nil
 }
 
-// Roll all dice in set and return the aggregate result
-func (d *Dice) Roll() int {
-	t := 0
+// Roll all dice in set and return the aggregate result and an array of individual results
+func (d *Dice) Roll() (int, []int) {
+	t, a := 0, []int{}
 
 	for i := 0; i < d.number; i++ {
-		t += rng.Intn(d.sides) + 1
+		n := rng.Intn(d.sides) + 1
+		t += n
+		a = append(a, n)
 	}
 
-	return t
+	return t, a
 }
 
 // String satisfies the Stringer interface for Dice
@@ -143,15 +145,18 @@ func (b *Bag) Remove(s string) error {
 	return nil
 }
 
-// Roll returns aggregate rolls of all Dice in the bag
-func (b *Bag) Roll() int {
-	t := 0
+// Roll returns aggregate rolls of all Dice in the bag and a map set of results
+func (b *Bag) Roll() (int, map[string][]int) {
+	t, a := 0, make(map[string][]int)
 
 	for _, d := range b.dice {
-		t += d.Roll()
+		n, s := d.Roll()
+		t += n
+
+		a[d.String()] = s
 	}
 
-	return t
+	return t, a
 }
 
 // String satisfies the Stringer interface for Bags
