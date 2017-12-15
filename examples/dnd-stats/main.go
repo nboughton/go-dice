@@ -2,19 +2,25 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"sort"
+	"text/tabwriter"
 
 	"github.com/nboughton/go-dice"
 )
 
 func main() {
+	w := tabwriter.NewWriter(os.Stdout, 0, 2, 1, ' ', 0)
+
 	// Run once for each stat
 	for i := 0; i < 6; i++ {
 		d, _ := dice.NewDice("4d6")
 		_, n := d.Roll()
 		sort.Ints(n)
-		fmt.Printf("Dropped: [%d], Kept: %v = %d\n", n[0], n[1:], sum(n[1:]))
+		fmt.Fprintf(w, "%d\t%v\n", sum(n[1:]), n)
 	}
+
+	w.Flush()
 }
 
 func sum(n []int) int {
