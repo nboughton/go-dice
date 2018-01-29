@@ -179,8 +179,6 @@ func strToVal(a string) (number, sides int, err error) {
 		if number > 0 && sides > 0 {
 			return number, sides, nil
 		}
-
-		return number, sides, fmt.Errorf("%s is not a valid dice string", a)
 	}
 
 	return number, sides, fmt.Errorf("%s is not a valid dice string", a)
