@@ -26,12 +26,7 @@ func TestNewDice(t *testing.T) {
 func TestDiceAdd(t *testing.T) {
 	d, _ := NewDice("3d20")
 	e := "4d20"
-	d.Add(testDice)
-	if d.String() != e {
-		t.Fatalf(expectedStr, e, d.String())
-	}
-
-	d.Add("2d6")
+	d.Add(1)
 	if d.String() != e {
 		t.Fatalf(expectedStr, e, d.String())
 	}
@@ -40,12 +35,7 @@ func TestDiceAdd(t *testing.T) {
 func TestDiceRemove(t *testing.T) {
 	d, _ := NewDice("3d20")
 	e := "2d20"
-	d.Remove(testDice)
-	if d.String() != e {
-		t.Fatalf(expectedStr, e, d.String())
-	}
-
-	d.Remove("2d6")
+	d.Remove(1)
 	if d.String() != e {
 		t.Fatalf(expectedStr, e, d.String())
 	}

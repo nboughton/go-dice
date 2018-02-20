@@ -28,38 +28,18 @@ func NewDice(s string) (*Dice, error) {
 	return &Dice{number, sides}, nil
 }
 
-// Add adds n die to a single set iff that set is of the same number of sides.
-// Returns error if s is not a valid dice string
-func (d *Dice) Add(s string) error {
-	number, sides, err := strToVal(s)
-	if err != nil {
-		return err
-	}
-
-	if d.sides == sides {
-		d.number += number
-	}
-
-	return nil
+// Add adds n die to a single set
+func (d *Dice) Add(n int) {
+	d.number += n
 }
 
-// Remove removes n die from a single set iff that set is of the same number of sides.
-// Returns error if s is not a valid dice string
-func (d *Dice) Remove(s string) error {
-	number, sides, err := strToVal(s)
-	if err != nil {
-		return err
+// Remove removes n die from a single set to a minimum of 1
+func (d *Dice) Remove(n int) {
+	if d.number-n < 1 {
+		d.number = 1
+	} else {
+		d.number -= n
 	}
-
-	if d.sides == sides {
-		if d.number-number < 1 {
-			d.number = 0
-		} else {
-			d.number -= number
-		}
-	}
-
-	return nil
 }
 
 // Roll all dice in set and return the aggregate result and an array of individual results
