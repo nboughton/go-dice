@@ -13,7 +13,7 @@ import (
 	"gonum.org/v1/plot/plotter"
 )
 
-var defaultPrecision = 10000000
+var defaultPrecision = 1000000
 
 func main() {
 	d := flag.String("d", "2d6", "Dice set to test. Can be a single value (2d10) or multiple values delineated by commas (2d4,3d10...)")
@@ -24,7 +24,7 @@ func main() {
 
 	switch *p {
 	case "medium":
-		precision = 1000000
+		precision = 100000
 	case "low":
 		precision = 10000
 	}
@@ -40,8 +40,8 @@ func main() {
 		log.Fatal(err)
 	}
 	pl.Title.Text = "Probability Distribution For " + *d
-	pl.X.Label.Text = "Number Rolled"
-	pl.Y.Label.Text = "Probability of Roll"
+	pl.X.Label.Text = "Rolled"
+	pl.Y.Label.Text = "Probability (%)"
 	pl.Add(plotter.NewGrid())
 
 	// Generate plot data
