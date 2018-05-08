@@ -24,9 +24,9 @@ func main() {
 
 	switch *p {
 	case "medium":
-		precision = defaultPrecision / 100
+		precision = 1000000
 	case "low":
-		precision = defaultPrecision / 1000
+		precision = 10000
 	}
 
 	bag, err := dice.NewBag(strings.Split(*d, ",")...)
@@ -74,7 +74,6 @@ func runTests(bag *dice.Bag, tests, wants int) float64 {
 }
 
 func lineData(bag *dice.Bag, precision int) plotter.XYs {
-	log.Printf("Data points: %d", bag.Max()-bag.Min()+1)
 	pts := make(plotter.XYs, bag.Max()-bag.Min()+1)
 	for i := range pts {
 		pts[i].X = float64(i + bag.Min())
