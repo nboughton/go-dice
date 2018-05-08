@@ -42,6 +42,16 @@ func (d *Dice) Remove(n int) {
 	}
 }
 
+// Min returns the minimume possible roll
+func (d *Dice) Min() int {
+	return d.number
+}
+
+// Max returns the maximum possible roll
+func (d *Dice) Max() int {
+	return d.number * d.sides
+}
+
 // Roll all dice in set and return the aggregate result and an array of individual results
 func (d *Dice) Roll() (int, []int) {
 	t, a := 0, []int{}
@@ -123,6 +133,24 @@ func (b *Bag) Remove(s string) error {
 	}
 
 	return nil
+}
+
+// Min returns the minimum possible roll
+func (b *Bag) Min() int {
+	t := 0
+	for _, d := range b.dice {
+		t += d.Min()
+	}
+	return t
+}
+
+// Max returns the maximum possible roll
+func (b *Bag) Max() int {
+	t := 0
+	for _, d := range b.dice {
+		t += d.Max()
+	}
+	return t
 }
 
 // Roll returns aggregate rolls of all Dice in the bag and a map set of results
