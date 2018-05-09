@@ -5,17 +5,18 @@ import (
 	"fmt"
 	"log"
 	"strings"
-
-	"gonum.org/v1/plot/vg"
+	"time"
 
 	"github.com/nboughton/go-dice"
 	"gonum.org/v1/plot"
 	"gonum.org/v1/plot/plotter"
+	"gonum.org/v1/plot/vg"
 )
 
 var defaultPrecision = 1000000
 
 func main() {
+	z := time.Now()
 	d := flag.String("d", "2d6", "Dice set to test. Can be a single value (2d10) or multiple values delineated by commas (2d4,3d10...)")
 	p := flag.String("p", "high", "Set precision (high, medium, low). Higher precision performs more tests and thus takes longer")
 	flag.Parse()
@@ -63,25 +64,26 @@ func main() {
 	if err := pl.Save(15*vg.Centimeter, 15*vg.Centimeter, fmt.Sprintf("%s.png", *d)); err != nil {
 		log.Fatal(err)
 	}
-}
 
-func runTests(bag *dice.Bag, tests, wants int) float64 {
-	c := 0
-	for i := 0; i < tests; i++ {
-		t, _ := bag.Roll()
-		if t == wants {
-			c++
-		}
-	}
-
-	return float64(c) / float64(tests) * 100
+	fmt.Println(time.Since(z).Round(time.Second))
 }
 
 func lineData(bag *dice.Bag, precision int) plotter.XYs {
-	pts := make(plotter.XYs, bag.Max()-bag.Min()+1)
+	var (
+		xLen = bag.Max() - bag.Min() + 1
+		pts  = make(plotter.XYs, xLen)
+		x    = make([]float64, xLen)
+	)
+
+	for i := 0; i < precision; i++ {
+		t, _ := bag.Roll()
+		x[t-bag.Min()]++
+	}
+
 	for i := range pts {
 		pts[i].X = float64(i + bag.Min())
-		pts[i].Y = runTests(bag, precision, i+bag.Min())
+		pts[i].Y = x[i] / float64(precision) * 100
 	}
+
 	return pts
 }
