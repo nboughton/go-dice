@@ -46,6 +46,8 @@ func main() {
 	pl.Y.Min = 0
 	//pl.Y.Max = 100
 
+	pl.X.Tick.Marker = customTicks{}
+	pl.Y.Tick.Marker = customTicks{}
 	pl.Add(plotter.NewGrid())
 
 	// Generate plot data
@@ -82,4 +84,16 @@ func lineData(bag *dice.Bag, precision int) plotter.XYs {
 	}
 
 	return pts
+}
+
+type customTicks struct{}
+
+func (customTicks) Ticks(min, max float64) []plot.Tick {
+	var tks []plot.Tick
+
+	for i := 0.; i < max; i++ {
+		tks = append(tks, plot.Tick{Value: float64(i + 1), Label: fmt.Sprintf("%d", int(i+1))})
+	}
+
+	return tks
 }
