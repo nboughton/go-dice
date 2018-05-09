@@ -12,19 +12,19 @@ import (
 	"gonum.org/v1/plot/vg"
 )
 
-var defaultPrecision = 1000000
+var defaultprec = 1000000
 
 func main() {
 	d := flag.String("d", "2d6", "Dice set to test. Can be a single value (2d10) or multiple values delineated by commas (2d4,3d10...)")
-	p := flag.String("p", "high", "Set precision (high, medium, low). Higher precision performs more tests and thus takes longer")
+	p := flag.String("p", "high", "Set prec (high, medium, low). Higher prec performs more tests and thus takes longer")
 	flag.Parse()
 
-	precision := defaultPrecision
+	prec := defaultprec
 	switch *p {
 	case "medium":
-		precision = 100000
+		prec = 100000
 	case "low":
-		precision = 10000
+		prec = 10000
 	}
 
 	bag, err := dice.NewBag(strings.Split(*d, ",")...)
@@ -51,7 +51,7 @@ func main() {
 	pl.Add(plotter.NewGrid())
 
 	// Generate plot data
-	l, err := plotter.NewLine(lineData(bag, precision))
+	l, err := plotter.NewLine(lineData(bag, prec))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -66,21 +66,23 @@ func main() {
 	}
 }
 
-func lineData(bag *dice.Bag, precision int) plotter.XYs {
+func lineData(bag *dice.Bag, prec int) plotter.XYs {
 	var (
-		xLen = bag.Max() - bag.Min() + 1
+		min  = bag.Min()
+		max  = bag.Max()
+		xLen = max - min + 1
 		pts  = make(plotter.XYs, xLen)
 		x    = make([]float64, xLen)
 	)
 
-	for i := 0; i < precision; i++ {
+	for i := 0; i < prec; i++ {
 		t, _ := bag.Roll()
-		x[t-bag.Min()]++
+		x[t-min]++
 	}
 
 	for i := range pts {
-		pts[i].X = float64(i + bag.Min())
-		pts[i].Y = x[i] / float64(precision) * 100
+		pts[i].X = float64(i + min)
+		pts[i].Y = x[i] / float64(prec) * 100
 	}
 
 	return pts
