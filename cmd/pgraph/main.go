@@ -92,8 +92,29 @@ func (customTicks) Ticks(min, max float64) []plot.Tick {
 	var tks []plot.Tick
 
 	for i := 0.; i < max; i++ {
-		tks = append(tks, plot.Tick{Value: float64(i + 1), Label: fmt.Sprintf("%d", int(i+1))})
+		t := plot.Tick{Value: float64(i + 1)}
+
+		switch {
+		case max > 20 && max <= 50:
+			t.Label = label(i, 2)
+		case max > 50 && max <= 100:
+			t.Label = label(i, 5)
+		case max > 100:
+			t.Label = label(i, 10)
+		default:
+			t.Label = label(i, 1)
+		}
+
+		tks = append(tks, t)
 	}
 
 	return tks
+}
+
+func label(i float64, mod int) string {
+	if int(i+1)%mod == 0 {
+		return fmt.Sprintf("%d", int(i+1))
+	}
+
+	return ""
 }
