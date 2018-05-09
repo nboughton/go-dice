@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"strings"
-	"time"
 
 	"github.com/nboughton/go-dice"
 	"gonum.org/v1/plot"
@@ -16,7 +15,6 @@ import (
 var defaultPrecision = 1000000
 
 func main() {
-	z := time.Now()
 	d := flag.String("d", "2d6", "Dice set to test. Can be a single value (2d10) or multiple values delineated by commas (2d4,3d10...)")
 	p := flag.String("p", "high", "Set precision (high, medium, low). Higher precision performs more tests and thus takes longer")
 	flag.Parse()
@@ -64,8 +62,6 @@ func main() {
 	if err := pl.Save(15*vg.Centimeter, 15*vg.Centimeter, fmt.Sprintf("%s.png", *d)); err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Println(time.Since(z).Round(time.Second))
 }
 
 func lineData(bag *dice.Bag, precision int) plotter.XYs {
