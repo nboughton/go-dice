@@ -21,7 +21,6 @@ func main() {
 	flag.Parse()
 
 	precision := defaultPrecision
-
 	switch *p {
 	case "medium":
 		precision = 100000
@@ -41,7 +40,13 @@ func main() {
 	}
 	pl.Title.Text = "Probability Distribution For " + *d
 	pl.X.Label.Text = "Rolled"
+	pl.X.Min = float64(bag.Min())
+	pl.X.Max = float64(bag.Max())
+
 	pl.Y.Label.Text = "Probability (%)"
+	pl.Y.Min = 0
+	//pl.Y.Max = 100
+
 	pl.Add(plotter.NewGrid())
 
 	// Generate plot data
@@ -53,7 +58,6 @@ func main() {
 
 	// Add plot data
 	pl.Add(l)
-	//pl.Legend.Add(fmt.Sprintf("For %s", *d))
 
 	// Save to png
 	if err := pl.Save(15*vg.Centimeter, 15*vg.Centimeter, fmt.Sprintf("%s.png", *d)); err != nil {
