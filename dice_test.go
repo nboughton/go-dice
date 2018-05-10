@@ -56,6 +56,20 @@ func TestDiceRoll(t *testing.T) {
 	}
 }
 
+func TestDiceMin(t *testing.T) {
+	d, _ := NewDice(testDice)
+	if d.Min() != 1 {
+		t.Fatalf(expectedStr, 1, d.Min())
+	}
+}
+
+func TestDiceMax(t *testing.T) {
+	d, _ := NewDice(testDice)
+	if d.Max() != 20 {
+		t.Fatalf(expectedStr, 20, d.Max())
+	}
+}
+
 func TestNewBag(t *testing.T) {
 	b, _ := NewBag(testBag...)
 	e := strings.Join(testBag, ", ")
@@ -114,5 +128,19 @@ func TestBagRoll(t *testing.T) {
 		if len(s) != len(testBag) {
 			t.Fatalf(badAggSetStr, s, len(testBag), len(s))
 		}
+	}
+}
+
+func TestBagMin(t *testing.T) {
+	b, _ := NewBag(testBag...)
+	if b.Min() != 11 {
+		t.Fatalf(expectedStr, 11, b.Min())
+	}
+}
+
+func TestBagMax(t *testing.T) {
+	b, _ := NewBag(testBag...)
+	if b.Max() != 72 {
+		t.Fatalf(expectedStr, 72, b.Max())
 	}
 }
