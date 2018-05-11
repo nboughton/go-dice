@@ -39,12 +39,12 @@ func main() {
 	}
 	pl.Title.Text = "Probability Distribution For " + *d
 	pl.X.Label.Text = "Rolled"
-	//pl.X.Min = float64(bag.Min())
-	//pl.X.Max = float64(bag.Max())
+	pl.X.Min = float64(bag.Min())
+	pl.X.Max = float64(bag.Max())
 
 	pl.Y.Label.Text = "Probability (%)"
-	//pl.Y.Min = 0
-	//pl.Y.Max = 100
+	pl.Y.Min = 0
+	//pl.Y.Max =
 
 	pl.X.Tick.Marker = customTicks{}
 	pl.Y.Tick.Marker = customTicks{}
@@ -101,12 +101,8 @@ func (customTicks) Ticks(min, max float64) []plot.Tick {
 			t.Label = label(i, 2)
 		case max > 50 && max <= 100:
 			t.Label = label(i, 5)
-		case max > 100 && max <= 200:
-			t.Label = label(i, 10)
-		case max > 200 && max <= 600:
-			t.Label = label(i, 25)
-		case max > 600:
-			t.Label = label(i, 50)
+		case max > 100:
+			t.Label = label(i, int(max/4))
 		default:
 			t.Label = label(i, 1)
 		}
@@ -118,7 +114,7 @@ func (customTicks) Ticks(min, max float64) []plot.Tick {
 }
 
 func label(i float64, mod int) string {
-	if int(i+1)%mod == 0 {
+	if int(i+1)%mod == 0 || i == 1 {
 		return fmt.Sprintf("%d", int(i+1))
 	}
 
