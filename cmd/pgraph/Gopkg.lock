@@ -36,8 +36,8 @@
 [[projects]]
   name = "github.com/nboughton/go-dice"
   packages = ["."]
-  revision = "c0cc376f0cf4a4883a8dd806f2b388ef4d593f22"
-  version = "v5.1.1"
+  revision = "64a77956341ad99806ebd5eccf80b285f024d34f"
+  version = "v5.1.2"
 
 [[projects]]
   branch = "master"
@@ -69,7 +69,7 @@
     "lapack/lapack64",
     "mat"
   ]
-  revision = "22552cc6f1c2a61a60d85068496ed01094602b0b"
+  revision = "f402b0ae715a00004fc0a3140f43008a46cd99da"
 
 [[projects]]
   branch = "master"
