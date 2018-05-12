@@ -37,7 +37,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	pl.Title.Text = "Probability Distribution For " + *d
+	pl.Title.Text = "Distribution For " + bag.String()
 	pl.X.Label.Text = "Rolled"
 	pl.X.Min = float64(bag.Min())
 	pl.X.Max = float64(bag.Max())
@@ -61,7 +61,7 @@ func main() {
 	pl.Add(l)
 
 	// Save to png
-	if err := pl.Save(15*vg.Centimeter, 15*vg.Centimeter, fmt.Sprintf("%s.png", *d)); err != nil {
+	if err := pl.Save(20*vg.Centimeter, 15*vg.Centimeter, fmt.Sprintf("%s.png", *d)); err != nil {
 		log.Fatal(err)
 	}
 }
@@ -114,7 +114,7 @@ func (customTicks) Ticks(min, max float64) []plot.Tick {
 }
 
 func label(i float64, mod int) string {
-	if int(i+1)%mod == 0 || i == 1 {
+	if int(i+1)%mod == 0 {
 		return fmt.Sprintf("%d", int(i+1))
 	}
 
