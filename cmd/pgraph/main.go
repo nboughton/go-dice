@@ -88,11 +88,11 @@ func (customTicks) Ticks(min, max float64) []plot.Tick {
 		t := plot.Tick{Value: float64(i + 1)}
 
 		switch {
-		case max > 20 && max <= 50:
+		case max > 20 && max < 50:
 			t.Label = label(i, 2)
-		case max > 50 && max <= 100:
+		case max >= 50 && max < 100:
 			t.Label = label(i, 5)
-		case max > 100:
+		case max >= 100:
 			t.Label = label(i, int(max/4))
 		default:
 			t.Label = label(i, 1)
