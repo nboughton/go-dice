@@ -12,11 +12,11 @@ import (
 	"gonum.org/v1/plot/vg"
 )
 
-var defaultprec = 1000000
+var defaultrolls = 1000000
 
 func main() {
 	d := flag.String("d", "2d6", "Dice set to test. Can be a single value (2d10) or multiple values delineated by commas (2d4,3d10...)")
-	r := flag.Int("r", defaultprec, "Set number of rolls to try")
+	r := flag.Int("r", defaultrolls, "Set number of rolls to try")
 	flag.Parse()
 
 	bag, err := dice.NewBag(strings.Split(*d, ",")...)
@@ -36,7 +36,7 @@ func main() {
 
 	pl.Y.Label.Text = "Probability (%)"
 	pl.Y.Min = 0
-	//pl.Y.Max =
+	pl.Y.Max = 50
 
 	pl.X.Tick.Marker = customTicks{}
 	pl.Y.Tick.Marker = customTicks{}
@@ -58,7 +58,7 @@ func main() {
 	}
 }
 
-func lineData(bag *dice.Bag, prec int) plotter.XYs {
+func lineData(bag *dice.Bag, rolls int) plotter.XYs {
 	var (
 		min  = bag.Min()
 		max  = bag.Max()
@@ -66,14 +66,14 @@ func lineData(bag *dice.Bag, prec int) plotter.XYs {
 		xy   = make(plotter.XYs, xLen)
 	)
 
-	for i := 0; i < prec; i++ {
+	for i := 0; i < rolls; i++ {
 		t, _ := bag.Roll()
 		xy[t-min].Y++
 	}
 
 	for i := range xy {
 		xy[i].X = float64(i + min)
-		xy[i].Y = xy[i].Y / float64(prec) * 100
+		xy[i].Y = xy[i].Y / float64(rolls) * 100
 	}
 
 	return xy
