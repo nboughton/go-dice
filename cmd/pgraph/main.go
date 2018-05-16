@@ -16,16 +16,8 @@ var defaultprec = 1000000
 
 func main() {
 	d := flag.String("d", "2d6", "Dice set to test. Can be a single value (2d10) or multiple values delineated by commas (2d4,3d10...)")
-	p := flag.String("p", "high", "Set prec (high, medium, low). Higher prec performs more tests and thus takes longer")
+	r := flag.Int("r", defaultprec, "Set number of rolls to try")
 	flag.Parse()
-
-	prec := defaultprec
-	switch *p {
-	case "medium":
-		prec = 100000
-	case "low":
-		prec = 10000
-	}
 
 	bag, err := dice.NewBag(strings.Split(*d, ",")...)
 	if err != nil {
@@ -51,7 +43,7 @@ func main() {
 	pl.Add(plotter.NewGrid())
 
 	// Generate plot data
-	l, err := plotter.NewLine(lineData(bag, prec))
+	l, err := plotter.NewLine(lineData(bag, *r))
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -71,21 +63,20 @@ func lineData(bag *dice.Bag, prec int) plotter.XYs {
 		min  = bag.Min()
 		max  = bag.Max()
 		xLen = max - min + 1
-		pts  = make(plotter.XYs, xLen)
-		x    = make([]float64, xLen)
+		xy   = make(plotter.XYs, xLen)
 	)
 
 	for i := 0; i < prec; i++ {
 		t, _ := bag.Roll()
-		x[t-min]++
+		xy[t-min].Y++
 	}
 
-	for i := range pts {
-		pts[i].X = float64(i + min)
-		pts[i].Y = x[i] / float64(prec) * 100
+	for i := range xy {
+		xy[i].X = float64(i + min)
+		xy[i].Y = xy[i].Y / float64(prec) * 100
 	}
 
-	return pts
+	return xy
 }
 
 type customTicks struct{}
