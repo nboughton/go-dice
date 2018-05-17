@@ -5,7 +5,6 @@ package dice
 import (
 	"fmt"
 	"math/rand"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -180,13 +179,13 @@ func (b *Bag) String() string {
 
 // returns int values for numbers, sides
 func strToVal(a string) (number, sides int, err error) {
-	ns := strings.Split(a, "d")
-	if len(ns) == 2 {
-		number, _ = strconv.Atoi(ns[0])
-		sides, _ = strconv.Atoi(ns[1])
-		if number > 0 && sides > 0 {
-			return number, sides, nil
-		}
+	_, err = fmt.Scanf("%dd%d", &number, &sides)
+	if err != nil {
+		return number, sides, fmt.Errorf("%s is not a valid dice string", a)
+	}
+
+	if number > 0 && sides > 0 {
+		return number, sides, nil
 	}
 
 	return number, sides, fmt.Errorf("%s is not a valid dice string", a)
