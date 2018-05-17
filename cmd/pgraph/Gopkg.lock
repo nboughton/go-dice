@@ -2,12 +2,6 @@
 
 
 [[projects]]
-  branch = "default"
-  name = "bitbucket.org/zombiezen/gopdf"
-  packages = ["pdf"]
-  revision = "1c63dc69751bc45441c2ce1f56b631c55294b4d5"
-
-[[projects]]
   branch = "master"
   name = "github.com/ajstarks/svgo"
   packages = ["."]
@@ -24,6 +18,12 @@
   revision = "e2365dfdc4a05e4b8299a783240d4a7d5a65d4e4"
 
 [[projects]]
+  name = "github.com/jung-kurt/gofpdf"
+  packages = ["."]
+  revision = "14c1db30737a138f8d9797cffea58783892b2fae"
+  version = "v1.0.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/llgcode/draw2d"
   packages = [
@@ -36,8 +36,8 @@
 [[projects]]
   name = "github.com/nboughton/go-dice"
   packages = ["."]
-  revision = "64a77956341ad99806ebd5eccf80b285f024d34f"
-  version = "v5.1.2"
+  revision = "1571d053b50b8f1ac3d396249c3c63e6419fe7a7"
+  version = "v5.1.3"
 
 [[projects]]
   branch = "master"
@@ -69,7 +69,7 @@
     "lapack/lapack64",
     "mat"
   ]
-  revision = "f402b0ae715a00004fc0a3140f43008a46cd99da"
+  revision = "3f7b30d06c1c427c1ee146170e8952f2caef1ad2"
 
 [[projects]]
   branch = "master"
@@ -87,7 +87,7 @@
     "vg/vgpdf",
     "vg/vgsvg"
   ]
-  revision = "8e90bd1840aacc281e54298e39ac0ae2be794419"
+  revision = "d133dd424d79994b48487a8c489fd9c637576b30"
 
 [solve-meta]
   analyzer-name = "dep"
