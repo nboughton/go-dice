@@ -179,7 +179,7 @@ func (b *Bag) String() string {
 
 // returns int values for numbers, sides
 func strToVal(a string) (number, sides int, err error) {
-	_, err = fmt.Scanf("%dd%d", &number, &sides)
+	_, err = fmt.Sscanf(a, "%dd%d", &number, &sides)
 	if err != nil {
 		return number, sides, fmt.Errorf("%s is not a valid dice string", a)
 	}
