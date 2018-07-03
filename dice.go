@@ -80,9 +80,13 @@ type Bag struct {
 func NewBag(dice ...string) (*Bag, error) {
 	b := new(Bag)
 
+	// Account for different inputs
 	for _, a := range dice {
-		if err := b.Add(a); err != nil {
-			return b, err
+		items := strings.Split(a, ",")
+		for _, i := range items {
+			if err := b.Add(i); err != nil {
+				return b, err
+			}
 		}
 	}
 
