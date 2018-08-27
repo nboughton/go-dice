@@ -18,12 +18,14 @@ func main() {
 	flag.Parse()
 
 	// Expand *d into sets of test dice
-	if diceBag, err := dice.NewBag(strings.Split(*d, ",")...); err != nil {
+	diceBag, err := dice.NewBag(strings.Split(*d, ",")...)
+	if err != nil {
 		fmt.Println(err)
-	} else {
-		// Run Tests
-		fmt.Printf("Probability of %v == %d: %.2f%% over %d tests\n", diceBag, *e, runTests(diceBag, *t, *e), *t)
+		return
 	}
+
+	// Run Tests
+	fmt.Printf("Probability of %v == %d: %.3f%% over %d tests\n", diceBag, *e, runTests(diceBag, *t, *e), *t)
 }
 
 func runTests(bag *dice.Bag, tests, wants int) float64 {
