@@ -25,7 +25,7 @@ func main() {
 	}
 
 	// Run Tests
-	fmt.Printf("Probability of %v == %d: %.3f%% over %d tests\n", diceBag, *e, runTests(diceBag, *t, *e), *t)
+	fmt.Printf("Probability of %v == %d: %f%% over %d tests\n", diceBag, *e, runTests(diceBag, *t, *e), *t)
 }
 
 func runTests(bag *dice.Bag, tests, wants int) float64 {
